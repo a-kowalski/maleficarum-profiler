@@ -9,11 +9,5 @@
         "psr-4": {
             "Maleficarum\\Profiler\\": "src/Profiler/"
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:pharaun13/maleficarum-profiler.git"
-        }
-    ]
+    }
 }
