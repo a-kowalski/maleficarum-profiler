@@ -1,0 +1,19 @@
+{
+    "name": "maleficarum/profiler",
+    "description": "Maleficarum profiler component",
+    "require": {
+        "php": ">=5.6",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Maleficarum\\Profiler\\": "src/Profiler/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:pharaun13/maleficarum-profiler.git"
+        }
+    ]
+}
