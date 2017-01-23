@@ -10,7 +10,7 @@ namespace Maleficarum\Profiler;
 class Time implements \Maleficarum\Profiler\Profiler
 {
     /**
-     * Definitions for initial and conclusion milestone lables.
+     * Definitions for initial and conclusion milestone labels.
      */
     const BEGIN_LABEL = '__BEGIN__';
     const END_LABEL = '__END__';
@@ -26,8 +26,7 @@ class Time implements \Maleficarum\Profiler\Profiler
     /**
      * Initialize a new time profiler.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->clear();
     }
     /* ------------------------------------ Magic methods END ------------------------------------------ */
@@ -38,7 +37,7 @@ class Time implements \Maleficarum\Profiler\Profiler
      *
      * @return \Maleficarum\Profiler\Time
      */
-    public function clear() {
+    public function clear() : \Maleficarum\Profiler\Time {
         $this->data = [];
 
         return $this;
@@ -50,32 +49,21 @@ class Time implements \Maleficarum\Profiler\Profiler
      * @param string $label
      * @param string|null $comment
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      * @return \Maleficarum\Profiler\Time
+     * @throws \RuntimeException
      */
-    public function addMilestone($label, $comment = null) {
+    public function addMilestone(string $label, string $comment = null) : \Maleficarum\Profiler\Time {
         if (count($this->data) < 1) {
-            throw new \RuntimeException('Cannot add a milestone to a stopped profiler. \Maleficarum\Profiler\Time::addMilestone()');
+            throw new \RuntimeException(sprintf('Cannot add a milestone to a stopped profiler. \%s::addMilestone()', static::class));
         }
-
-        if (!is_string($label)) {
-            throw new \InvalidArgumentException('Invalid milestone label - string expected. \Maleficarum\Profiler\Time::addMilestone()');
-        }
-
-        if (!is_string($comment) && !is_null($comment)) {
-            throw new \InvalidArgumentException('Invalid milestone comment - string or null expected. \Maleficarum\Profiler\Time::addMilestone()');
-        }
-
-        $milestone = [
-            'timestamp' => microtime(true),
-            'comment' => $comment
-        ];
 
         // create a nonempty label if one was not provided
         mb_strlen($label) or $label = uniqid();
 
-        $this->data[$label] = $milestone;
+        $this->data[$label] = [
+            'timestamp' => microtime(true),
+            'comment' => $comment
+        ];
 
         return $this;
     }
@@ -85,16 +73,12 @@ class Time implements \Maleficarum\Profiler\Profiler
      *
      * @param string $label
      *
-     * @throws \InvalidArgumentException
      * @return array
+     * @throws \InvalidArgumentException
      */
-    public function getMilestone($label) {
-        if (!is_string($label)) {
-            throw new \InvalidArgumentException('Invalid milestone label - string expected. \Maleficarum\Profiler\Time::getMilestone()');
-        }
-
+    public function getMilestone(string $label) : array {
         if (!array_key_exists($label, $this->data)) {
-            throw new \InvalidArgumentException('Invalid milestone label provided. \Maleficarum\Profiler\Time::getMilestone()');
+            throw new \InvalidArgumentException(sprintf('Invalid milestone label provided. \%s::getMilestone()', static::class));
         }
 
         return $this->data[$label];
@@ -105,21 +89,21 @@ class Time implements \Maleficarum\Profiler\Profiler
      *
      * @return array
      */
-    public function getMilestoneLabels() {
+    public function getMilestoneLabels() : array {
         return array_keys($this->data);
     }
 
     /**
      * Begin time profiling.
      *
-     * @param Float|null
+     * @param float|null $start
      *
      * @return \Maleficarum\Profiler\Time
      * @throws \RuntimeException
      */
-    public function begin($start = null) {
+    public function begin(float $start = null) : \Maleficarum\Profiler\Time {
         if (count($this->data)) {
-            throw new \RuntimeException('Impossible to activate an already activated time profiler. \Maleficarum\Profiler\Time::begin()');
+            throw new \RuntimeException(sprintf('Impossible to activate an already activated time profiler. \%s::begin()', static::class));
         }
 
         $this->data[self::BEGIN_LABEL] = [
@@ -136,13 +120,13 @@ class Time implements \Maleficarum\Profiler\Profiler
      * @return \Maleficarum\Profiler\Time
      * @throws \RuntimeException
      */
-    public function end() {
+    public function end() : \Maleficarum\Profiler\Time {
         if (count($this->data) < 1) {
-            throw new \RuntimeException('Impossible to stop a time profiler that has not been started yet. \Maleficarum\Profiler\Time::end()');
+            throw new \RuntimeException(sprintf('Impossible to stop a time profiler that has not been started yet. \%s::end()', static::class));
         }
 
         if (count($this->data) > 0 && $this->isComplete()) {
-            throw new \RuntimeException('Impossible to stop an already stopped time profiler. \Maleficarum\Profiler\Time::end()');
+            throw new \RuntimeException(sprintf('Impossible to stop an already stopped time profiler. \%s::end()', static::class));
         }
 
         $this->data[self::END_LABEL] = [
@@ -158,7 +142,7 @@ class Time implements \Maleficarum\Profiler\Profiler
      *
      * @return bool
      */
-    public function isComplete() {
+    public function isComplete() : bool {
         return array_key_exists(self::END_LABEL, $this->data);
     }
     /* ------------------------------------ Time methods END ------------------------------------------- */
@@ -167,6 +151,8 @@ class Time implements \Maleficarum\Profiler\Profiler
     /**
      * Fetch profile data for the specified milestone combination.
      *
+     * @see \Maleficarum\Profiler\Profiler::getProfile()
+     * 
      * @param string $end
      * @param string $start
      *
@@ -174,17 +160,13 @@ class Time implements \Maleficarum\Profiler\Profiler
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function getProfile($end = self::END_LABEL, $start = self::BEGIN_LABEL) {
+    public function getProfile(string $end = self::END_LABEL, string $start = self::BEGIN_LABEL) {
         if (!array_key_exists(self::BEGIN_LABEL, $this->data)) {
-            throw new \RuntimeException('Call to getProfile prior to starting the profiling process. \Maleficarum\Profiler\Time::getProfile()');
-        }
-
-        if (!is_string($end) || !is_string($start)) {
-            throw new \InvalidArgumentException('Invalid milestone label - string expected. \Maleficarum\Profiler\Time::getProfile()');
+            throw new \RuntimeException(sprintf('Call to getProfile prior to starting the profiling process. \%s::getProfile()', static::class));
         }
 
         if (!array_key_exists($end, $this->data) || !array_key_exists($start, $this->data)) {
-            throw new \InvalidArgumentException('Nonexistent profile label provided. \Maleficarum\Profiler\Time::getProfile()');
+            throw new \InvalidArgumentException(sprintf('Nonexistent profile label provided. \%s::getProfile()', static::class));
         }
 
         return ($this->data[$end]['timestamp'] - $this->data[$start]['timestamp']);

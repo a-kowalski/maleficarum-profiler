@@ -22,27 +22,14 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
     /**
      * Add a new executed query to this profiler.
      *
-     * @param number $start
-     * @param number $end
+     * @param float $start
+     * @param float $end
      * @param string $query
      * @param array $params
      *
-     * @throws \InvalidArgumentException
      * @return \Maleficarum\Profiler\Database
      */
-    public function addQuery($start, $end, $query, array $params = []) {
-        if (!is_numeric($start)) {
-            throw new \InvalidArgumentException('Invalid start time provided - number expected. \Maleficarum\Profiler\Database::addQuery()');
-        }
-
-        if (!is_numeric($end)) {
-            throw new \InvalidArgumentException('Invalid end time provided - number expected. \Maleficarum\Profiler\Database::addQuery()');
-        }
-
-        if (!is_string($query)) {
-            throw new \InvalidArgumentException('Invalid query provided - string expected. \Maleficarum\Profiler\Database::addQuery()');
-        }
-
+    public function addQuery(float $start, float $end, string $query, array $params = []) : \Maleficarum\Profiler\Database {
         $entry = [
             'start' => $start,
             'end' => $end,
@@ -54,9 +41,9 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
 
         $patterns = [];
         $values = [];
-        foreach ($params as $key => $val) {
+        foreach ($params as $key => $value) {
             $patterns[] = '/' . $key . '([^a-zA-Z\d_]){0,1}/';
-            $values[] = "'$val'";
+            $values[] = "'$value'";
         }
 
         $entry['parsedQuery'] = preg_replace($patterns, $values, $entry['parsedQuery']);
@@ -69,7 +56,10 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
 
     /* ------------------------------------ Profiler methods START ------------------------------------- */
     /**
+     * Get database profiler data.
+     * 
      * @see \Maleficarum\Profiler\Profiler::getProfile()
+     * @return array
      */
     public function getProfile() {
         return $this->data;
@@ -78,47 +68,65 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
 
     /* ------------------------------------ Countable methods START ------------------------------------ */
     /**
-     * @see Countable::count()
+     * Count array elements
+     *
+     * @see \Countable::count()
+     * @return int
      */
-    public function count() {
+    public function count() : int {
         return count($this->data);
     }
     /* ------------------------------------ Countable methods END -------------------------------------- */
 
     /* ------------------------------------ Iterator methods START ------------------------------------- */
     /**
-     * @see Iterator::current()
+     * Return the current element in an array
+     *
+     * @see \Iterator::current()
+     * @return mixed
      */
     public function current() {
         return current($this->data);
     }
 
     /**
-     * @see Iterator::key()
-     */
-    public function key() {
-        return key($this->data);
-    }
-
-    /**
-     * @see Iterator::next()
+     * Move forward to next element
+     *
+     * @see \Iterator::next()
+     * @return void
      */
     public function next() {
         next($this->data);
     }
 
     /**
-     * @see Iterator::rewind()
+     * Fetch a key from an array
+     *
+     * @see \Iterator::key()
+     * @return mixed
      */
-    public function rewind() {
-        reset($this->data);
+    public function key() {
+        return key($this->data);
     }
 
     /**
-     * @see Iterator::valid()
+     * Checks if current position is valid
+     *
+     * @see \Iterator::valid()
+     * @return bool
      */
-    public function valid() {
+    public function valid() : bool {
         return isset($this->data[$this->key()]);
+    }
+
+    /**
+     * Rewind the Iterator to the first element
+     *
+     * @see \Iterator::rewind()
+     * @return void
+     */
+    public function rewind() {
+        reset($this->data);
     }
     /* ------------------------------------ Iterator methods END --------------------------------------- */
 }

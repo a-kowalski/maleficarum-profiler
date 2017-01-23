@@ -13,27 +13,22 @@ trait Dependant
     /**
      * Internal storage for profiler objects.
      *
-     * @var array
+     * @var array|\Maleficarum\Profiler\Profiler[]
      */
     protected $profilers = [];
 
     /* ------------------------------------ Dependant methods START ------------------------------------ */
     /**
      * Inject a new profiler provider object.
-     *
+     * 
      * @param \Maleficarum\Profiler\Profiler $profiler
      * @param string $index
      *
      * @return $this
-     * @throws \InvalidArgumentException
      */
-    public function addProfiler($profiler, $index) {
-        if (!$profiler instanceof \Maleficarum\Profiler\Profiler) {
-            throw new \InvalidArgumentException(sprintf('Incorrect profiler - \Maleficarum\Profiler\Profiler expected. \%s::addProfiler()', get_class($this)));
-        }
-
-        if (!is_string($index) || !mb_strlen($index)) {
-            throw new \InvalidArgumentException(sprintf('Incorrect profiler index - string expected. \%s::addProfiler()', get_class($this)));
+    public function addProfiler(\Maleficarum\Profiler\Profiler $profiler, string $index) {
+        if (!mb_strlen($index)) {
+            throw new \InvalidArgumentException(sprintf('Incorrect profiler index - empty string provided. \%s::addProfiler()', static::class));
         }
 
         $this->profilers[$index] = $profiler;
@@ -47,18 +42,13 @@ trait Dependant
      * @param string $index
      *
      * @return \Maleficarum\Profiler\Profiler|null
-     * @throws \InvalidArgumentException
      */
-    public function getProfiler($index = 'time') {
-        if (!is_string($index) || !mb_strlen($index)) {
-            throw new \InvalidArgumentException(sprintf('Incorrect profiler index - nonempty string expected. \%s::getProfiler()', get_class($this)));
+    public function getProfiler(string $index = 'time') {
+        if (!array_key_exists($index, $this->profilers)) {
+            return null;
         }
 
-        if (array_key_exists($index, $this->profilers)) {
-            return $this->profilers[$index];
-        }
-
-        return null;
+        return $this->profilers[$index];
     }
 
     /**

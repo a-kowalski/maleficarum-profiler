@@ -13,7 +13,7 @@ interface Profiler
     /**
      * Get profiler data.
      *
-     * @return float
+     * @return mixed
      */
     public function getProfile();
     /* ------------------------------------ Profiler methods END --------------------------------------- */
