@@ -1,9 +1,13 @@
 {
     "name": "maleficarum/profiler",
+    "license": "proprietary",
     "description": "Maleficarum profiler component",
     "require": {
         "php": ">=7.0",
         "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {
