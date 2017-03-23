@@ -15,14 +15,7 @@ class Initializer {
 	 * @return string
 	 */
 	static public function initializeTime(array $opts = []) : string {
-		$time = \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Time\Generic')->begin((float)$opts['start'] ?? 0);
-		
-		try {
-			$bootstrap = \Maleficarum\Ioc\Container::getDependency('Maleficarum\Bootstrap');
-			$bootstrap->setTimeProfiler($time);
-		} catch (\RuntimeException $e) {}
-		
-		\Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Time', $time);
+		\Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Time', \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Time\Generic')->begin((float)$opts['start'] ?? 0));
 		return __METHOD__;
 	}
 
@@ -31,14 +24,7 @@ class Initializer {
 	 * @return string
 	 */
 	static public function initializeDatabase(array $opts = []) : string {
-		$database = \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Database\Generic');
-
-		try {
-			$bootstrap = \Maleficarum\Ioc\Container::getDependency('Maleficarum\Bootstrap');
-			$bootstrap->setDbProfiler($database);
-		} catch (\RuntimeException $e) {}
-		
-		\Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Database', $database);
+		\Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Database', \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Database\Generic'));
 		return __METHOD__;
 	}
 	
