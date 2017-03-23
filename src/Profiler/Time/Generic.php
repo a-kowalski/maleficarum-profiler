@@ -1,14 +1,15 @@
 <?php
 /**
  * This class provides basic time profiling for code execution. It allows for both entire process and milestone analisis.
- *
- * @implements \Maleficarum\Profiler\Profiler
  */
+declare (strict_types=1);
 
-namespace Maleficarum\Profiler;
+namespace Maleficarum\Profiler\Time;
 
-class Time implements \Maleficarum\Profiler\Profiler
-{
+class Generic implements \Maleficarum\Profiler\Profiler {
+    
+    /* ------------------------------------ Class Property START --------------------------------------- */
+    
     /**
      * Definitions for initial and conclusion milestone labels.
      */
@@ -22,16 +23,21 @@ class Time implements \Maleficarum\Profiler\Profiler
      */
     private $data = [];
 
+    /* ------------------------------------ Class Property END ----------------------------------------- */
+    
     /* ------------------------------------ Magic methods START ---------------------------------------- */
+    
     /**
      * Initialize a new time profiler.
      */
     public function __construct() {
         $this->clear();
     }
+    
     /* ------------------------------------ Magic methods END ------------------------------------------ */
 
-    /* ------------------------------------ Time methods START ----------------------------------------- */
+    /* ------------------------------------ Class Methods START ---------------------------------------- */
+    
     /**
      * Clear any profiling data.
      *
@@ -48,7 +54,6 @@ class Time implements \Maleficarum\Profiler\Profiler
      *
      * @param string $label
      * @param string|null $comment
-     *
      * @return \Maleficarum\Profiler\Time
      * @throws \RuntimeException
      */
@@ -72,7 +77,6 @@ class Time implements \Maleficarum\Profiler\Profiler
      * Fetch an existing milestone.
      *
      * @param string $label
-     *
      * @return array
      * @throws \InvalidArgumentException
      */
@@ -97,7 +101,6 @@ class Time implements \Maleficarum\Profiler\Profiler
      * Begin time profiling.
      *
      * @param float|null $start
-     *
      * @return \Maleficarum\Profiler\Time
      * @throws \RuntimeException
      */
@@ -145,20 +148,13 @@ class Time implements \Maleficarum\Profiler\Profiler
     public function isComplete() : bool {
         return array_key_exists(self::END_LABEL, $this->data);
     }
-    /* ------------------------------------ Time methods END ------------------------------------------- */
+    
+    /* ------------------------------------ Class Methods END ------------------------------------------ */
 
     /* ------------------------------------ Profiler methods START ------------------------------------- */
+    
     /**
-     * Fetch profile data for the specified milestone combination.
-     *
      * @see \Maleficarum\Profiler\Profiler::getProfile()
-     * 
-     * @param string $end
-     * @param string $start
-     *
-     * @return float
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
      */
     public function getProfile(string $end = self::END_LABEL, string $start = self::BEGIN_LABEL) {
         if (!array_key_exists(self::BEGIN_LABEL, $this->data)) {
@@ -171,5 +167,6 @@ class Time implements \Maleficarum\Profiler\Profiler
 
         return ($this->data[$end]['timestamp'] - $this->data[$start]['timestamp']);
     }
+    
     /* ------------------------------------ Profiler methods END --------------------------------------- */
 }

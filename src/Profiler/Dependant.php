@@ -2,14 +2,15 @@
 /**
  * This trait provides functionality common to all classes dependant on the \Maleficarum\Profiler namespace. Unlike most other Dependant traits this one allows for setting and fetching
  * multiple profiler types and instances.
- *
- * @trait
  */
+declare (strict_types=1);
 
 namespace Maleficarum\Profiler;
 
-trait Dependant
-{
+trait Dependant {
+    
+    /* ------------------------------------ Class Property START --------------------------------------- */
+    
     /**
      * Internal storage for profiler objects.
      *
@@ -17,14 +18,16 @@ trait Dependant
      */
     protected $profilers = [];
 
-    /* ------------------------------------ Dependant methods START ------------------------------------ */
+    /* ------------------------------------ Class Property END ----------------------------------------- */
+
+    /* ------------------------------------ Class Methods START ---------------------------------------- */
+    
     /**
      * Inject a new profiler provider object.
      * 
      * @param \Maleficarum\Profiler\Profiler $profiler
      * @param string $index
-     *
-     * @return $this
+     * @return \Maleficarum\Profiler\Dependant
      */
     public function addProfiler(\Maleficarum\Profiler\Profiler $profiler, string $index) {
         if (!mb_strlen($index)) {
@@ -32,7 +35,6 @@ trait Dependant
         }
 
         $this->profilers[$index] = $profiler;
-
         return $this;
     }
 
@@ -40,8 +42,7 @@ trait Dependant
      * Fetch an assigned profiler object.
      *
      * @param string $index
-     *
-     * @return \Maleficarum\Profiler\Profiler|null
+     * @return \Maleficarum\Profiler\Profiler
      */
     public function getProfiler(string $index = 'time') {
         if (!array_key_exists($index, $this->profilers)) {
@@ -53,13 +54,14 @@ trait Dependant
 
     /**
      * Detach all profiler objects.
-     *
-     * @return $this
+     * 
+     * @return \Maleficarum\Profiler\Dependant
      */
     public function detachProfilers() {
         $this->profilers = [];
 
         return $this;
     }
-    /* ------------------------------------ Dependant methods END -------------------------------------- */
+    
+    /* ------------------------------------ Class Methods END ------------------------------------------ */
 }

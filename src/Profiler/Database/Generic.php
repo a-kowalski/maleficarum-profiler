@@ -1,16 +1,15 @@
 <?php
 /**
  * This class provides profiling functionality for query execution.
- *
- * @implements \Iterator
- * @implements \Countable
- * @implements \Maleficarum\Profiler\Profiler
  */
+declare (strict_types=1);
 
-namespace Maleficarum\Profiler;
+namespace Maleficarum\Profiler\Database;
 
-class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
-{
+class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
+    
+    /* ------------------------------------ Class Property START --------------------------------------- */
+    
     /**
      * Internal storage for profiling data.
      *
@@ -18,7 +17,10 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
      */
     private $data = [];
 
-    /* ------------------------------------ Database methods START ------------------------------------- */
+    /* ------------------------------------ Class Property END ----------------------------------------- */
+
+    /* ------------------------------------ Class Methods START ---------------------------------------- */
+    
     /**
      * Add a new executed query to this profiler.
      *
@@ -26,7 +28,6 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
      * @param float $end
      * @param string $query
      * @param array $params
-     *
      * @return \Maleficarum\Profiler\Database
      */
     public function addQuery(float $start, float $end, string $query, array $params = []) : \Maleficarum\Profiler\Database {
@@ -52,81 +53,67 @@ class Database implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler
 
         return $this;
     }
-    /* ------------------------------------ Database methods END --------------------------------------- */
+    
+    /* ------------------------------------ Class Methods END ------------------------------------------ */
 
     /* ------------------------------------ Profiler methods START ------------------------------------- */
+    
     /**
-     * Get database profiler data.
-     * 
      * @see \Maleficarum\Profiler\Profiler::getProfile()
-     * @return array
      */
     public function getProfile() {
         return $this->data;
     }
+    
     /* ------------------------------------ Profiler methods END --------------------------------------- */
 
     /* ------------------------------------ Countable methods START ------------------------------------ */
+    
     /**
-     * Count array elements
-     *
      * @see \Countable::count()
-     * @return int
      */
     public function count() : int {
         return count($this->data);
     }
+    
     /* ------------------------------------ Countable methods END -------------------------------------- */
 
     /* ------------------------------------ Iterator methods START ------------------------------------- */
+    
     /**
-     * Return the current element in an array
-     *
      * @see \Iterator::current()
-     * @return mixed
      */
     public function current() {
         return current($this->data);
     }
 
     /**
-     * Move forward to next element
-     *
      * @see \Iterator::next()
-     * @return void
      */
     public function next() {
         next($this->data);
     }
 
     /**
-     * Fetch a key from an array
-     *
      * @see \Iterator::key()
-     * @return mixed
      */
     public function key() {
         return key($this->data);
     }
 
     /**
-     * Checks if current position is valid
-     *
      * @see \Iterator::valid()
-     * @return bool
      */
     public function valid() : bool {
         return isset($this->data[$this->key()]);
     }
 
     /**
-     * Rewind the Iterator to the first element
-     *
      * @see \Iterator::rewind()
-     * @return void
      */
     public function rewind() {
         reset($this->data);
     }
+    
     /* ------------------------------------ Iterator methods END --------------------------------------- */
 }

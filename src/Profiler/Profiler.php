@@ -1,20 +1,22 @@
 <?php
 /**
  * This interface defines the profiler contract.
- *
- * @interface
  */
+declare (strict_types=1);
 
 namespace Maleficarum\Profiler;
 
-interface Profiler
-{
-    /* ------------------------------------ Profiler methods START ------------------------------------- */
+interface Profiler {
+    
+    /* ------------------------------------ Class Methods START ---------------------------------------- */
+    
     /**
      * Get profiler data.
      *
      * @return mixed
      */
     public function getProfile();
-    /* ------------------------------------ Profiler methods END --------------------------------------- */
+    
+    /* ------------------------------------ Class Methods END ------------------------------------------ */
+    
 }
