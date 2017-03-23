@@ -41,9 +41,9 @@ class Generic implements \Maleficarum\Profiler\Profiler {
     /**
      * Clear any profiling data.
      *
-     * @return \Maleficarum\Profiler\Time
+     * @return \Maleficarum\Profiler\Time\Generic
      */
-    public function clear() : \Maleficarum\Profiler\Time {
+    public function clear() : \Maleficarum\Profiler\Time\Generic {
         $this->data = [];
 
         return $this;
@@ -54,10 +54,10 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      *
      * @param string $label
      * @param string|null $comment
-     * @return \Maleficarum\Profiler\Time
+     * @return \Maleficarum\Profiler\Time\Generic
      * @throws \RuntimeException
      */
-    public function addMilestone(string $label, string $comment = null) : \Maleficarum\Profiler\Time {
+    public function addMilestone(string $label, string $comment = null) : \Maleficarum\Profiler\Time\Generic {
         if (count($this->data) < 1) {
             throw new \RuntimeException(sprintf('Cannot add a milestone to a stopped profiler. \%s::addMilestone()', static::class));
         }
@@ -101,10 +101,10 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      * Begin time profiling.
      *
      * @param float|null $start
-     * @return \Maleficarum\Profiler\Time
+     * @return \Maleficarum\Profiler\Time\Generic
      * @throws \RuntimeException
      */
-    public function begin(float $start = null) : \Maleficarum\Profiler\Time {
+    public function begin(float $start = null) : \Maleficarum\Profiler\Time\Generic {
         if (count($this->data)) {
             throw new \RuntimeException(sprintf('Impossible to activate an already activated time profiler. \%s::begin()', static::class));
         }
@@ -120,10 +120,10 @@ class Generic implements \Maleficarum\Profiler\Profiler {
     /**
      * Stop time profiling.
      *
-     * @return \Maleficarum\Profiler\Time
+     * @return \Maleficarum\Profiler\Time\Generic
      * @throws \RuntimeException
      */
-    public function end() : \Maleficarum\Profiler\Time {
+    public function end() : \Maleficarum\Profiler\Time\Generic {
         if (count($this->data) < 1) {
             throw new \RuntimeException(sprintf('Impossible to stop a time profiler that has not been started yet. \%s::end()', static::class));
         }

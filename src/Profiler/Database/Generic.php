@@ -28,9 +28,9 @@ class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
      * @param float $end
      * @param string $query
      * @param array $params
-     * @return \Maleficarum\Profiler\Database
+     * @return \Maleficarum\Profiler\Database\Generic
      */
-    public function addQuery(float $start, float $end, string $query, array $params = []) : \Maleficarum\Profiler\Database {
+    public function addQuery(float $start, float $end, string $query, array $params = []) : \Maleficarum\Profiler\Database\Generic {
         $entry = [
             'start' => $start,
             'end' => $end,
