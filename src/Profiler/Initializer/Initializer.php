@@ -7,6 +7,9 @@ declare (strict_types=1);
 namespace Maleficarum\Profiler\Initializer;
 
 class Initializer {
+	
+	/* ------------------------------------ Class Methods START ---------------------------------------- */
+	
 	/**
 	 * This will initialize the time profiler.
 	 * @return string
@@ -38,4 +41,7 @@ class Initializer {
 		\Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Database', $database);
 		return __METHOD__;
 	}
+	
+	/* ------------------------------------ Class Methods END ------------------------------------------ */
+	
 }
