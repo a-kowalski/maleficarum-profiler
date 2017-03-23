@@ -4,7 +4,7 @@
  */
 declare (strict_types=1);
 
-namespace Maleficarum\Database\Initializer;
+namespace Maleficarum\Profiler\Initializer;
 
 class Initializer {
 	/**
