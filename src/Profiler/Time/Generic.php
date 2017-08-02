@@ -7,9 +7,9 @@ declare (strict_types=1);
 namespace Maleficarum\Profiler\Time;
 
 class Generic implements \Maleficarum\Profiler\Profiler {
-    
+
     /* ------------------------------------ Class Property START --------------------------------------- */
-    
+
     /**
      * Definitions for initial and conclusion milestone labels.
      */
@@ -24,26 +24,26 @@ class Generic implements \Maleficarum\Profiler\Profiler {
     private $data = [];
 
     /* ------------------------------------ Class Property END ----------------------------------------- */
-    
+
     /* ------------------------------------ Magic methods START ---------------------------------------- */
-    
+
     /**
      * Initialize a new time profiler.
      */
     public function __construct() {
         $this->clear();
     }
-    
+
     /* ------------------------------------ Magic methods END ------------------------------------------ */
 
     /* ------------------------------------ Class Methods START ---------------------------------------- */
-    
+
     /**
      * Clear any profiling data.
      *
      * @return \Maleficarum\Profiler\Time\Generic
      */
-    public function clear() : \Maleficarum\Profiler\Time\Generic {
+    public function clear(): \Maleficarum\Profiler\Time\Generic {
         $this->data = [];
 
         return $this;
@@ -54,10 +54,11 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      *
      * @param string $label
      * @param string|null $comment
+     *
      * @return \Maleficarum\Profiler\Time\Generic
      * @throws \RuntimeException
      */
-    public function addMilestone(string $label, string $comment = null) : \Maleficarum\Profiler\Time\Generic {
+    public function addMilestone(string $label, string $comment = null): \Maleficarum\Profiler\Time\Generic {
         if (count($this->data) < 1) {
             throw new \RuntimeException(sprintf('Cannot add a milestone to a stopped profiler. \%s::addMilestone()', static::class));
         }
@@ -77,10 +78,11 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      * Fetch an existing milestone.
      *
      * @param string $label
+     *
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function getMilestone(string $label) : array {
+    public function getMilestone(string $label): array {
         if (!array_key_exists($label, $this->data)) {
             throw new \InvalidArgumentException(sprintf('Invalid milestone label provided. \%s::getMilestone()', static::class));
         }
@@ -93,7 +95,7 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      *
      * @return array
      */
-    public function getMilestoneLabels() : array {
+    public function getMilestoneLabels(): array {
         return array_keys($this->data);
     }
 
@@ -101,10 +103,11 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      * Begin time profiling.
      *
      * @param float|null $start
+     *
      * @return \Maleficarum\Profiler\Time\Generic
      * @throws \RuntimeException
      */
-    public function begin(float $start = null) : \Maleficarum\Profiler\Time\Generic {
+    public function begin(float $start = null): \Maleficarum\Profiler\Time\Generic {
         if (count($this->data)) {
             throw new \RuntimeException(sprintf('Impossible to activate an already activated time profiler. \%s::begin()', static::class));
         }
@@ -123,7 +126,7 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      * @return \Maleficarum\Profiler\Time\Generic
      * @throws \RuntimeException
      */
-    public function end() : \Maleficarum\Profiler\Time\Generic {
+    public function end(): \Maleficarum\Profiler\Time\Generic {
         if (count($this->data) < 1) {
             throw new \RuntimeException(sprintf('Impossible to stop a time profiler that has not been started yet. \%s::end()', static::class));
         }
@@ -145,14 +148,14 @@ class Generic implements \Maleficarum\Profiler\Profiler {
      *
      * @return bool
      */
-    public function isComplete() : bool {
+    public function isComplete(): bool {
         return array_key_exists(self::END_LABEL, $this->data);
     }
-    
+
     /* ------------------------------------ Class Methods END ------------------------------------------ */
 
     /* ------------------------------------ Profiler methods START ------------------------------------- */
-    
+
     /**
      * @see \Maleficarum\Profiler\Profiler::getProfile()
      */
@@ -167,6 +170,6 @@ class Generic implements \Maleficarum\Profiler\Profiler {
 
         return ($this->data[$end]['timestamp'] - $this->data[$start]['timestamp']);
     }
-    
+
     /* ------------------------------------ Profiler methods END --------------------------------------- */
 }

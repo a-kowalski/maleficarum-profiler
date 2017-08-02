@@ -7,9 +7,8 @@ declare (strict_types=1);
 namespace Maleficarum\Profiler\Database;
 
 class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
-    
     /* ------------------------------------ Class Property START --------------------------------------- */
-    
+
     /**
      * Internal storage for profiling data.
      *
@@ -20,7 +19,7 @@ class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
     /* ------------------------------------ Class Property END ----------------------------------------- */
 
     /* ------------------------------------ Class Methods START ---------------------------------------- */
-    
+
     /**
      * Add a new executed query to this profiler.
      *
@@ -28,9 +27,10 @@ class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
      * @param float $end
      * @param string $query
      * @param array $params
+     *
      * @return \Maleficarum\Profiler\Database\Generic
      */
-    public function addQuery(float $start, float $end, string $query, array $params = []) : \Maleficarum\Profiler\Database\Generic {
+    public function addQuery(float $start, float $end, string $query, array $params = []): \Maleficarum\Profiler\Database\Generic {
         $entry = [
             'start' => $start,
             'end' => $end,
@@ -53,33 +53,33 @@ class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
 
         return $this;
     }
-    
+
     /* ------------------------------------ Class Methods END ------------------------------------------ */
 
     /* ------------------------------------ Profiler methods START ------------------------------------- */
-    
+
     /**
      * @see \Maleficarum\Profiler\Profiler::getProfile()
      */
     public function getProfile() {
         return $this->data;
     }
-    
+
     /* ------------------------------------ Profiler methods END --------------------------------------- */
 
     /* ------------------------------------ Countable methods START ------------------------------------ */
-    
+
     /**
      * @see \Countable::count()
      */
-    public function count() : int {
+    public function count(): int {
         return count($this->data);
     }
-    
+
     /* ------------------------------------ Countable methods END -------------------------------------- */
 
     /* ------------------------------------ Iterator methods START ------------------------------------- */
-    
+
     /**
      * @see \Iterator::current()
      */
@@ -104,7 +104,7 @@ class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
     /**
      * @see \Iterator::valid()
      */
-    public function valid() : bool {
+    public function valid(): bool {
         return isset($this->data[$this->key()]);
     }
 
@@ -114,6 +114,6 @@ class Generic implements \Iterator, \Countable, \Maleficarum\Profiler\Profiler {
     public function rewind() {
         reset($this->data);
     }
-    
+
     /* ------------------------------------ Iterator methods END --------------------------------------- */
 }

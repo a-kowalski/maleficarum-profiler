@@ -5,7 +5,7 @@ declare(strict_types = 1);
  * Tests for the \Maleficarum\Profiler\Database class.
  */
 
-namespace Maleficarum\Profiler\Tests;
+namespace Maleficarum\Profiler\Tests\Database;
 
 class DatabaseTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,7 +13,7 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
 
     public static function setUpBeforeClass() {
         parent::setUpBeforeClass();
-        self::$profiler = new \Maleficarum\Profiler\Database();
+        self::$profiler = new \Maleficarum\Profiler\Database\Generic();
     }
 
     /* ------------------------------------ Method: addQuery START ------------------------------------- */

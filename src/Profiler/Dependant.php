@@ -8,9 +8,8 @@ declare (strict_types=1);
 namespace Maleficarum\Profiler;
 
 trait Dependant {
-    
     /* ------------------------------------ Class Property START --------------------------------------- */
-    
+
     /**
      * Internal storage for profiler objects.
      *
@@ -21,12 +20,13 @@ trait Dependant {
     /* ------------------------------------ Class Property END ----------------------------------------- */
 
     /* ------------------------------------ Class Methods START ---------------------------------------- */
-    
+
     /**
      * Inject a new profiler provider object.
-     * 
+     *
      * @param \Maleficarum\Profiler\Profiler $profiler
      * @param string $index
+     *
      * @return \Maleficarum\Profiler\Dependant
      */
     public function addProfiler(\Maleficarum\Profiler\Profiler $profiler, string $index) {
@@ -35,6 +35,7 @@ trait Dependant {
         }
 
         $this->profilers[$index] = $profiler;
+
         return $this;
     }
 
@@ -42,9 +43,10 @@ trait Dependant {
      * Fetch an assigned profiler object.
      *
      * @param string $index
-     * @return \Maleficarum\Profiler\Profiler
+     *
+     * @return \Maleficarum\Profiler\Profiler|null
      */
-    public function getProfiler(string $index = 'time') {
+    public function getProfiler(string $index = 'time'): ?\Maleficarum\Profiler\Profiler {
         if (!array_key_exists($index, $this->profilers)) {
             return null;
         }
@@ -54,7 +56,7 @@ trait Dependant {
 
     /**
      * Detach all profiler objects.
-     * 
+     *
      * @return \Maleficarum\Profiler\Dependant
      */
     public function detachProfilers() {
@@ -62,6 +64,6 @@ trait Dependant {
 
         return $this;
     }
-    
+
     /* ------------------------------------ Class Methods END ------------------------------------------ */
 }

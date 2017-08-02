@@ -3,7 +3,7 @@
     "license": "proprietary",
     "description": "Maleficarum profiler component",
     "require": {
-        "php": ">=7.0",
+        "php": "^7.1",
         "ext-mbstring": "*",
         "maleficarum/ioc": "^2.0"
     },

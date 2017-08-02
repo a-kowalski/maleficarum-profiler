@@ -5,7 +5,7 @@ declare(strict_types = 1);
  * Tests for the \Maleficarum\Profiler\Time class.
  */
 
-namespace Maleficarum\Profiler\Tests;
+namespace Maleficarum\Profiler\Tests\Time;
 
 class TimeTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,7 +13,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
 
     /* ------------------------------------ Method: clear START ---------------------------------------- */
     public function testClear() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
 
         $this->setProperty($profiler, 'data', self::$dataMock);
         $profiler->clear();
@@ -28,12 +28,12 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \RuntimeException
      */
     public function testAddMilestoneNotRunning() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->addMilestone(uniqid());
     }
 
     public function testAddMilestoneCorrect() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
 
         $this->setProperty($profiler, 'data', self::$dataMock);
 
@@ -54,12 +54,12 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \InvalidArgumentException
      */
     public function testGetMilestoneMissing() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->getMilestone(uniqid());
     }
 
     public function testGetMilestoneCorrect() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $this->setProperty($profiler, 'data', ['foo' => ['bar' => 'baz']]);
 
         $milestone = $profiler->getMilestone('foo');
@@ -69,7 +69,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
 
     /* ------------------------------------ Method: getMilestoneLabels START --------------------------- */
     public function testGetMilestoneLabelsCorrect() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $this->setProperty($profiler, 'data', self::$dataMock);
 
         $labels = $profiler->getMilestoneLabels();
@@ -83,14 +83,14 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \RuntimeException
      */
     public function testBeginIncorrect() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $this->setProperty($profiler, 'data', self::$dataMock);
 
         $profiler->begin();
     }
 
     public function testBeginCorrectWithoutTimestamp() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin();
 
         $data = $this->getProperty($profiler, 'data');
@@ -99,7 +99,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testBeginCorrectWithTimestamp() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin(1.0);
 
         $data = $this->getProperty($profiler, 'data');
@@ -116,7 +116,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \RuntimeException
      */
     public function testEndNotStarted() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->end();
     }
 
@@ -124,13 +124,13 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \RuntimeException
      */
     public function testEndAlreadyEnded() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->end();
         $profiler->end();
     }
 
     public function testEndCorrect() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin();
         $profiler->end();
 
@@ -145,20 +145,20 @@ class TimeTest extends \PHPUnit\Framework\TestCase
 
     /* ------------------------------------ Method: isComplete START ----------------------------------- */
     public function testIsCompleteNotStarted() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
 
         $this->assertFalse($profiler->isComplete());
     }
 
     public function testIsCompleteInProgress() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin();
 
         $this->assertFalse($profiler->isComplete());
     }
 
     public function testIsCompleteConcluded() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin();
         $profiler->end();
 
@@ -171,7 +171,7 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \RuntimeException
      */
     public function testGetProfileNotRunning() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->getProfile(uniqid(), uniqid());
     }
 
@@ -179,13 +179,13 @@ class TimeTest extends \PHPUnit\Framework\TestCase
      * @expectedException \InvalidArgumentException
      */
     public function testGetNonexistentProfile() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin();
         $profiler->getProfile(uniqid(), uniqid());
     }
 
     public function testGetProfileCorrect() {
-        $profiler = new \Maleficarum\Profiler\Time();
+        $profiler = new \Maleficarum\Profiler\Time\Generic();
         $profiler->begin();
         $profiler->end();
 

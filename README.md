@@ -1,6 +1,11 @@
 # Change Log
 This is the Maleficarum Profiler component implementation. 
 
+## [4.0.0] - 2017-08-02
+### Changed
+- Make use of nullable types provided in PHP 7.1 (http://php.net/manual/en/migration71.new-features.php)
+- Fix tests
+
 ## [3.0.0] - 2017-03-23
 ### Changed
 - Changed internal structure and code style.
