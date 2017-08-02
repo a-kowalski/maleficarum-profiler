@@ -47,11 +47,7 @@ trait Dependant {
      * @return \Maleficarum\Profiler\Profiler|null
      */
     public function getProfiler(string $index = 'time'): ?\Maleficarum\Profiler\Profiler {
-        if (!array_key_exists($index, $this->profilers)) {
-            return null;
-        }
-
-        return $this->profilers[$index];
+        return $this->profilers[$index] ?? null;
     }
 
     /**
