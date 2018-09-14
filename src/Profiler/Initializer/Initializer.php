@@ -17,7 +17,7 @@ class Initializer {
      * @return string
      */
     static public function initializeTime(array $opts = []): string {
-        \Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Time', \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Time\Generic')->begin((float)$opts['start'] ?? 0));
+        \Maleficarum\Ioc\Container::registerShare('Maleficarum\Profiler\Time', \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Time\Generic')->begin((float)$opts['start'] ?? 0));
 
         return __METHOD__;
     }
@@ -30,7 +30,7 @@ class Initializer {
      * @return string
      */
     static public function initializeDatabase(array $opts = []): string {
-        \Maleficarum\Ioc\Container::registerDependency('Maleficarum\Profiler\Database', \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Database\Generic'));
+        \Maleficarum\Ioc\Container::registerShare('Maleficarum\Profiler\Database', \Maleficarum\Ioc\Container::get('Maleficarum\Profiler\Database\Generic'));
 
         return __METHOD__;
     }

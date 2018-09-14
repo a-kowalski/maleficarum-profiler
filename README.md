@@ -1,6 +1,12 @@
 # Change Log
 This is the Maleficarum Profiler component implementation. 
 
+## [5.0.0] - 2018-09-14
+### Changed
+- Bump IoC component to version 3.x
+- Bump phpunit version
+- Remove repositories section from composer file
+
 ## [4.0.0] - 2017-08-02
 ### Changed
 - Make use of nullable types provided in PHP 7.1 (http://php.net/manual/en/migration71.new-features.php)
